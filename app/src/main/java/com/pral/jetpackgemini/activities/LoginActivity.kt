@@ -1,4 +1,4 @@
-package com.pral.jetpackgemini
+package com.pral.jetpackgemini.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
@@ -32,7 +30,9 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.pral.jetpackgemini.R
 import com.pral.jetpackgemini.ui.theme.JetpackGeminiTheme
+import com.pral.jetpackgemini.views.AppInputField
 
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,13 +82,15 @@ fun LoginView(title: String, modifier: Modifier = Modifier) {
 
         ElevatedButton(
             onClick = {
-                val i = Intent(context,MainActivity::class.java)
+                val i = Intent(context, MainActivity::class.java)
                 context.startActivity(i)
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer
             ),
-            modifier = Modifier.padding(8.dp).fillMaxWidth(0.5f)
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth(0.5f)
         ) {
             Text(
                 text = "Login",
@@ -119,7 +121,7 @@ fun InputView(modifier: Modifier = Modifier) {
             text = email,
             label = "Email",
             onTextChange = { email = it },
-            icon = Icons.Filled.AccountCircle
+            icon = R.drawable.account
         )
         Spacer(modifier.height(12.dp))
         AppInputField(

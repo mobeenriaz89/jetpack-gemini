@@ -1,12 +1,8 @@
-package com.pral.jetpackgemini
+package com.pral.jetpackgemini.views
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -15,11 +11,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import com.pral.jetpackgemini.R
 
 @Composable
 fun AppInputField(
@@ -27,7 +24,7 @@ fun AppInputField(
     label: String,
     isPassword: Boolean = false,
     onTextChange: (String) -> Unit,
-    icon: ImageVector? = null,
+    icon: Int? = null,
     modifier: Modifier = Modifier
 ) {
 
@@ -37,7 +34,7 @@ fun AppInputField(
         value = text,
         onValueChange = { newText -> onTextChange(newText) },
         visualTransformation =
-        if (isPassword) PasswordVisualTransformation()
+        if (isPassword && !passwordVisible) PasswordVisualTransformation()
         else VisualTransformation.None,
         label = {
             Text(
@@ -47,8 +44,15 @@ fun AppInputField(
             )
         },
         trailingIcon = {
-            icon?.let {
-                    Icon(imageVector = it, contentDescription = "Toggle Password Visibility")
+            if (isPassword) {
+                val ic = if (passwordVisible) R.drawable.visibility else R.drawable.visibility_off
+                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                    Icon(painter = painterResource(ic), contentDescription = "")
+                }
+            } else {
+                icon?.let {
+                    Icon(painter = painterResource(it), contentDescription = "")
+                }
             }
         },
     )
@@ -57,8 +61,10 @@ fun AppInputField(
 @Preview(showBackground = true)
 @Composable
 fun InputFieldPreview() {
-    AppInputField("text", "label",
+    AppInputField(
+        "text", "label",
         isPassword = true,
         {},
-        Icons.Filled.AccountCircle)
+        icon = R.drawable.visibility,
+    )
 }
