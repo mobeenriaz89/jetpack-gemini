@@ -63,7 +63,7 @@ fun JetpackGeminiTheme(
 
     MaterialTheme(
         colorScheme = CustomColorScheme,
-        typography = Typography,
+        typography = MyTypography,
         content = content
     )
 }

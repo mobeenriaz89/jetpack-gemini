@@ -1,21 +1,22 @@
 package com.pral.jetpackgemini.activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ElevatedButton
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,7 +33,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pral.jetpackgemini.R
 import com.pral.jetpackgemini.ui.theme.JetpackGeminiTheme
+import com.pral.jetpackgemini.views.AppButton
 import com.pral.jetpackgemini.views.AppInputField
+import com.pral.jetpackgemini.views.AppTextView
 
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,56 +61,44 @@ fun LoginView(title: String, modifier: Modifier = Modifier) {
     Column(
         modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+            .background(MaterialTheme.colorScheme.background)
+            .padding(vertical = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = title,
-            color = Color.White,
-            fontFamily = FontFamily.Cursive,
-            modifier = modifier.align(Alignment.CenterHorizontally),
-            fontSize = 34.sp
-        )
-
-        Text(
-            text = "Login",
-            fontFamily = FontFamily.Monospace,
-            color = Color.White,
-            modifier = modifier.align(Alignment.CenterHorizontally),
-            fontSize = 26.sp
+        Surface(
+            color = Color.Black,
+            shape = RoundedCornerShape(8.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .padding(16.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = title,
+                    color = Color.White,
+                    fontFamily = FontFamily.Cursive,
+                    fontSize = 34.sp
+                )
+            }
+        }
+        AppTextView(
+            "Login",
+            modifier = modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(vertical = 12.dp),
+            fontSize = 38.sp
         )
         InputView()
         Spacer(Modifier.height(24.dp))
-        val context = LocalContext.current
 
-        ElevatedButton(
-            onClick = {
-                val i = Intent(context, MainActivity::class.java)
-                context.startActivity(i)
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.secondaryContainer
-            ),
-            modifier = Modifier
-                .padding(8.dp)
-                .fillMaxWidth(0.5f)
-        ) {
-            Text(
-                text = "Login",
-                color = MaterialTheme.colorScheme.onSecondary,
-                fontFamily = FontFamily.Cursive,
-                fontSize = 24.sp,
-            )
-        }
+        val context = LocalContext.current
+        AppButton("Login", onClick = {
+                login(context)
+        })
 
 
     }
-}
-
-@Composable
-fun login() {
-
-
 }
 
 @Composable
@@ -134,6 +125,10 @@ fun InputView(modifier: Modifier = Modifier) {
 
 }
 
+fun login(context: Context) {
+    val i = Intent(context, MainActivity::class.java)
+    context.startActivity(i)
+}
 
 @Preview(showSystemUi = true)
 @Composable

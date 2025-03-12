@@ -1,6 +1,7 @@
 package com.pral.jetpackgemini.views
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -13,15 +14,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import com.pral.jetpackgemini.R
 
 @Composable
 fun AppInputField(
-    text: String,
+    text: String = "",
     label: String,
+    keyboardType: KeyboardOptions = KeyboardOptions.Default,
     isPassword: Boolean = false,
     onTextChange: (String) -> Unit,
     icon: Int? = null,
@@ -39,10 +43,11 @@ fun AppInputField(
         label = {
             Text(
                 text = label,
-                fontFamily = FontFamily.Monospace,
-                modifier = modifier.padding()
+                modifier = modifier.padding(),
+                fontSize = 16.sp
             )
         },
+        keyboardOptions = if (isPassword) KeyboardOptions(keyboardType = KeyboardType.Password) else keyboardType,
         trailingIcon = {
             if (isPassword) {
                 val ic = if (passwordVisible) R.drawable.visibility else R.drawable.visibility_off
@@ -58,13 +63,15 @@ fun AppInputField(
     )
 }
 
+
 @Preview(showBackground = true)
 @Composable
 fun InputFieldPreview() {
     AppInputField(
-        "text", "label",
+        "",
+        "label",
         isPassword = true,
-        {},
+        onTextChange = {},
         icon = R.drawable.visibility,
     )
 }
