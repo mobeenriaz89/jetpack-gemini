@@ -1,21 +1,15 @@
-package com.pral.jetpackgemini.activities
+package com.pral.jetpackgemini.ui.views
 
-import android.content.Context
-import android.content.Intent
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,43 +20,26 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.pral.jetpackgemini.R
-import com.pral.jetpackgemini.ui.theme.JetpackGeminiTheme
-import com.pral.jetpackgemini.views.AppButton
-import com.pral.jetpackgemini.views.AppInputField
-import com.pral.jetpackgemini.views.AppTextView
-
-class LoginActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            JetpackGeminiTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    // Only apply innerPadding here, as it's already adjusted for system UI elements
-                    LoginView(
-                        title = "Gemini App",
-                        modifier = Modifier.padding(innerPadding) // No need for statusBarsPadding()
-                    )
-                }
-            }
-        }
-
-    }
-}
+import com.pral.jetpackgemini.navigation.NavigationItem
+import com.pral.jetpackgemini.ui.components.AppButton
+import com.pral.jetpackgemini.ui.components.AppInputField
+import com.pral.jetpackgemini.ui.components.AppTextView
 
 @Composable
-fun LoginView(title: String, modifier: Modifier = Modifier) {
+fun LoginScreen(navController: NavController) {
     Column(
-        modifier
+        Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .padding(vertical = 24.dp),
+            .padding(12.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Surface(
@@ -75,7 +52,7 @@ fun LoginView(title: String, modifier: Modifier = Modifier) {
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = title,
+                    text = stringResource(R.string.app_name),
                     color = Color.White,
                     fontFamily = FontFamily.Cursive,
                     fontSize = 34.sp
@@ -84,7 +61,7 @@ fun LoginView(title: String, modifier: Modifier = Modifier) {
         }
         AppTextView(
             "Login",
-            modifier = modifier
+            modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(vertical = 12.dp),
             fontSize = 38.sp
@@ -92,12 +69,11 @@ fun LoginView(title: String, modifier: Modifier = Modifier) {
         InputView()
         Spacer(Modifier.height(24.dp))
 
-        val context = LocalContext.current
         AppButton("Login", onClick = {
-                login(context)
+            navController.navigate(NavigationItem.Home.route) {
+                popUpTo(NavigationItem.Login.route) { inclusive = true }
+            }
         })
-
-
     }
 }
 
@@ -122,24 +98,10 @@ fun InputView(modifier: Modifier = Modifier) {
             onTextChange = { password = it }
         )
     }
-
 }
 
-fun login(context: Context) {
-    val i = Intent(context, MainActivity::class.java)
-    context.startActivity(i)
-}
-
-@Preview(showSystemUi = true)
+@Preview
 @Composable
-fun GreetingPreview() {
-    JetpackGeminiTheme {
-        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            // Only apply innerPadding here, as it's already adjusted for system UI elements
-            LoginView(
-                title = "Gemini app",
-                modifier = Modifier.padding(innerPadding) // No need for statusBarsPadding()
-            )
-        }
-    }
+fun LoginScreenPreview(){
+    LoginScreen(rememberNavController())
 }

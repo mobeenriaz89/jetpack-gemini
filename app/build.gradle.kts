@@ -66,7 +66,9 @@ dependencies {
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.generativeai)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-
+    implementation("androidx.navigation:navigation-compose:2.8.8")
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation(libs.androidx.navigation.runtime.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

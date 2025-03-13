@@ -1,19 +1,12 @@
-package com.pral.jetpackgemini.activities
+package com.pral.jetpackgemini.ui.views
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -24,37 +17,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pral.jetpackgemini.api.PromptViewModel
 import com.pral.jetpackgemini.api.UiState
-import com.pral.jetpackgemini.ui.theme.JetpackGeminiTheme
-import com.pral.jetpackgemini.views.AppButton
-import com.pral.jetpackgemini.views.AppInputField
-import com.pral.jetpackgemini.views.AppTextView
-import com.pral.jetpackgemini.views.ResultDialog
-
-class MainActivity : ComponentActivity() {
-
-    private var vm = PromptViewModel()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            JetpackGeminiTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainView(modifier = Modifier.padding(innerPadding), vm)
-                }
-            }
-        }
-    }
-}
+import com.pral.jetpackgemini.ui.components.AppButton
+import com.pral.jetpackgemini.ui.components.AppInputField
+import com.pral.jetpackgemini.ui.components.AppTextView
 
 @Composable
-fun MainView(modifier: Modifier = Modifier, vm: PromptViewModel = viewModel()) {
+fun MainScreen(modifier: Modifier = Modifier, vm: PromptViewModel = viewModel()) {
 
     val uiState by vm.uiState.collectAsState()
 
@@ -102,17 +75,14 @@ fun MainView(modifier: Modifier = Modifier, vm: PromptViewModel = viewModel()) {
             )
         }
 
-        /*if (uiState is UiState.Loading) {
-            CircularProgressIndicator(modifier.align(Alignment.Center))
-        } else {*/
-            if (uiState is UiState.Error) {
-                result = (uiState as UiState.Error).errorMessage
-                showDialog = true
-            } else if (uiState is UiState.Success) {
-                result = (uiState as UiState.Success).outputText
-                showDialog = true
-            }
-        //}
+        if (uiState is UiState.Error) {
+            result = (uiState as UiState.Error).errorMessage
+            showDialog = true
+        } else if (uiState is UiState.Success) {
+            result = (uiState as UiState.Success).outputText
+            showDialog = true
+        }
+
         ResultDialog(
             text = result,
             showDialog = showDialog,
@@ -122,15 +92,4 @@ fun MainView(modifier: Modifier = Modifier, vm: PromptViewModel = viewModel()) {
             }
         )
     }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun MainViewPreview() {
-    JetpackGeminiTheme {
-        Scaffold(Modifier.fillMaxSize()) {
-            MainView(modifier = Modifier.padding(it))
-        }
-    }
-
 }
