@@ -53,11 +53,13 @@ fun JetpackGeminiTheme(
 
      val CustomColorScheme = lightColorScheme(
         primary = Green,    // Custom primary color
-        secondary = Green,  // Custom secondary color
+        secondary = Blue,  // Custom secondary color
         background = WhiteBG, // Custom background color
         surface = Color.White,          // Surface color
-        onPrimary = Color.White,        // Text color on primary
-        onSecondary = Color.Black       // Text color on secondary
+        onPrimary = Blue,        // Text color on primary
+        onSecondary = Blue,       // Text color on secondary
+         primaryContainer = Green,    // Text color on secondary
+         secondaryContainer = Blue      // Text color on secondary
     )
 
 

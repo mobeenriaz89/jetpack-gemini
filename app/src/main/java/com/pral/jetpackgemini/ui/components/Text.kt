@@ -1,9 +1,11 @@
 package com.pral.jetpackgemini.ui.components
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
@@ -16,7 +18,8 @@ fun AppTextView(
 ) {
     Text(
         text = text,
-        color = Color.White,
+        color = MaterialTheme.colorScheme.secondary,
+        fontWeight = FontWeight.Bold,
         modifier = modifier,
         fontSize = fontSize
     )
